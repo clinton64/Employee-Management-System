@@ -1,6 +1,7 @@
 ﻿using EMS.Data;
 using EMS.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Controller;
 
@@ -31,7 +32,8 @@ namespace EMS.Controllers
             {
                 return NotFound();
             }
-            var project = _dbContext.Projects.Find(id);
+            var project = _dbContext.Projects.Include(p => p.Employees).FirstOrDefault(p => p.ProjectId == id);
+
             if (project == null)
             {
                 return NotFound();

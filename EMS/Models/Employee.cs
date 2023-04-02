@@ -1,96 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EMS.Models
 {
-    public interface Person
-    {
-        public abstract void UpdateProfile();
-        public abstract void UpdateAttendance();
-    }
-    public class Employee : Person
-    {
-        [Required]
-        public string Name { get; set; }
 
-        [Required] 
-        public string Password { get;set; }
-
-        [Required]
-        [EmailAddress(ErrorMessage = "Please enter a valid email address")]
-        public string Email { get; set; }
-
-        [Required]
-        [Phone(ErrorMessage = "Please enter a valid phone number.")]
-        public string Phone { get; set; }
-
-        [Required]
-        public BloodGroup BloodGroup { get; set; }
-
-        [Required]
-        public JobPost JobPost { get; set; }
-
-        [Range(0, 1000000)]
-        public int Salary { get; set; }
-
-        public string? Address { get; set; }
-
-        public Project? AssignedProject { get; set; }
-
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-
-        public DateTime LastUpdatedAt { get; set; } = DateTime.Now;
-
-        public Employee CreatedBy { get; set; } 
-
-        public Employee LastUpdatedBy { get; set; } 
-
-        public Employee(string name, string password, string email, string phone, BloodGroup bloodGroup, JobPost jobPost, int salary, string? address, Project? assignedProject)
-        {
-            Name = name;
-            Password = password;
-            Email = email;
-            Phone = phone;
-            BloodGroup = bloodGroup;
-            JobPost = jobPost;
-            Salary = salary;
-            Address = address;
-            AssignedProject = assignedProject;
-        }
-
-        public void UpdateAttendance()
-        {
-            //attendanceController.UpdateAttendance();
-        }
-
-        public void UpdateProfile()
-        {   
-            // employeeController.UpdateEmployee();
-        }
-    }
-
-    public class Admin : Employee
-    {
-        public Admin(string name, string password, string email, string phone, BloodGroup bloodGroup, JobPost jobPost, int salary, string? address, Project? assignedProject) : base(name, password, email, phone, bloodGroup, jobPost, salary, address, assignedProject)
-        {
-        }
-
-        public void AddEmployee(Employee employee)
-        {
-
-        }
-        public void UpdateEmployee(Employee employee)
-        {
-
-        }
-        public void DeleteEmployee(Employee employee)
-        {
-
-        }
-        public void AssignProject(Project project, Employee employee)
-        {
-
-        }
-    }
     public enum BloodGroup
     {
         APositive,
@@ -100,17 +16,51 @@ namespace EMS.Models
         ABPositive,
         ABNegative,
         OPositive,
-        ONegative,
-        NotSure
+        ONegative
     }
-    public enum JobPost
+
+
+    public class Employee
     {
-        SoftwareEngineer,
-        SeniorSoftwareEngineer,
-        ProjectLead,
-        HR,
-        CEO,
-        CTO,
-        NotDecidedyet
+
+
+        [Key]
+        public Guid EmployeeId { get; set; }
+        [Required]
+        [DisplayName(" Employee Name")]
+        public string EmployeeName { get; set; }
+
+        [Required]
+        [DisplayName(" Email")]
+        [Remote(action: "IsEmailAvailable", controller: "Employee", ErrorMessage = "Email already exists.")]
+        public string? EmployeeEmail { get; set; }
+
+        [Required]
+        public string JobTitle { get; set; }
+
+        public string? Address { get; set; }
+
+        public string? Phone { get; set; }
+
+        public BloodGroup BloodGroup { get; set; }
+
+        [Required]
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        [Required]
+        public DateTime LastUpdatedAt { get; set; } = DateTime.Now;
+
+        public Guid? CreatedBy { get; set; }
+        public Guid? UpdatedBy { get; set; }
+
+
+        public Guid? ProjectId { get; set; }
+        [ForeignKey("ProjectId")]
+        public Project? Project { get; set; }
+
+
     }
+
+
+   
 }

@@ -4,6 +4,7 @@ using EMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230402044133_AddEmployeeToDatabase")]
+    partial class AddEmployeeToDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,7 +45,7 @@ namespace EMS.Migrations
 
                     b.Property<string>("EmployeeEmail")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmployeeName")
                         .IsRequired()
@@ -56,7 +59,7 @@ namespace EMS.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("ProjectId")
                         .HasColumnType("uniqueidentifier");
@@ -65,13 +68,6 @@ namespace EMS.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("EmployeeId");
-
-                    b.HasIndex("EmployeeEmail")
-                        .IsUnique();
-
-                    b.HasIndex("Phone")
-                        .IsUnique()
-                        .HasFilter("[Phone] IS NOT NULL");
 
                     b.HasIndex("ProjectId");
 

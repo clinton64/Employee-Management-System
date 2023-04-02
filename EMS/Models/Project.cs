@@ -19,8 +19,9 @@ namespace EMS.Models
         public DateTime LastUpdatedAt { get; set; } = DateTime.Now;
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy{ get; set; }
+        public ICollection<Employee>? Employees { get; set; }
 
-       
+
     }
 
 }
