@@ -19,7 +19,7 @@ namespace EMS.Models
         public DateTime LastUpdatedAt { get; set; } = DateTime.Now;
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy{ get; set; }
-
+        public List<Employee> Employees { get; set; } = new List<Employee>();
        
     }
 

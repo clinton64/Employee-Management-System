@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EMS.Models
 {
@@ -9,11 +11,10 @@ namespace EMS.Models
     }
     public class Employee : Person
     {
+        [Key]
+        public Guid EmployeeId { get; set; }
         [Required]
         public string Name { get; set; }
-
-        [Required] 
-        public string Password { get;set; }
 
         [Required]
         [EmailAddress(ErrorMessage = "Please enter a valid email address")]
@@ -34,28 +35,19 @@ namespace EMS.Models
 
         public string? Address { get; set; }
 
-        public Project? AssignedProject { get; set; }
+        [DisplayName("Project")]
+        public Project? AssignedProject { get; set; } = null!;
+
+        [ForeignKey("Project")]
+        public Guid? ProjectId { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public DateTime LastUpdatedAt { get; set; } = DateTime.Now;
 
-        public Employee CreatedBy { get; set; } 
+        public Guid? CreatedBy { get; set; } 
 
-        public Employee LastUpdatedBy { get; set; } 
-
-        public Employee(string name, string password, string email, string phone, BloodGroup bloodGroup, JobPost jobPost, int salary, string? address, Project? assignedProject)
-        {
-            Name = name;
-            Password = password;
-            Email = email;
-            Phone = phone;
-            BloodGroup = bloodGroup;
-            JobPost = jobPost;
-            Salary = salary;
-            Address = address;
-            AssignedProject = assignedProject;
-        }
+        public Guid? LastUpdatedBy { get; set; } 
 
         public void UpdateAttendance()
         {
@@ -70,10 +62,6 @@ namespace EMS.Models
 
     public class Admin : Employee
     {
-        public Admin(string name, string password, string email, string phone, BloodGroup bloodGroup, JobPost jobPost, int salary, string? address, Project? assignedProject) : base(name, password, email, phone, bloodGroup, jobPost, salary, address, assignedProject)
-        {
-        }
-
         public void AddEmployee(Employee employee)
         {
 
@@ -93,6 +81,7 @@ namespace EMS.Models
     }
     public enum BloodGroup
     {
+        Unknown,
         APositive,
         ANegative,
         BPositive,
@@ -100,17 +89,16 @@ namespace EMS.Models
         ABPositive,
         ABNegative,
         OPositive,
-        ONegative,
-        NotSure
+        ONegative
     }
     public enum JobPost
     {
+        Not_Decided_Yet,
         SoftwareEngineer,
         SeniorSoftwareEngineer,
         ProjectLead,
         HR,
         CEO,
-        CTO,
-        NotDecidedyet
+        CTO
     }
 }

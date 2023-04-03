@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+@model IEnumerable<Employee>
+
+<div class="row pt-4">
+    <div class="col-6">
+        <h2 class="text-primary">Employee List</h2>
+    </div>
+    <div class="col-6 text-end">
+        <a asp-controller="Employee" asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle-dotted"></i> &nbsp; Create New Employee
+        </a>
+    </div>
+
+</div>
+
+<table class="table table-bordered table-striped" style="width:100%">
+
+    <thead>
+
+        <tr>
+            <th>
+                Employee Name
+            </th>
+
+            <th>
+                Designation
+            </th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td width="50%">
+                    @employee.Name
+                </td>
+
+                <td width="50%">
+                    @employee.JobPost
+                </td>
+                <td>
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="Employee" asp-action="Details" asp-route-id="@employee.EmployeeId" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Details</a>
+                    </div>
+                </td>
+                <td>
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="Employee" asp-action="Edit" asp-route-id="@employee.EmployeeId" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Edit</a>
+                    </div>
+                </td>
+
+                <td>
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="Employee" asp-action="Delete" asp-route-id="@employee.EmployeeId" class="btn btn-danger"><i class="bi bi-trash3"></i>Delete</a>
+                    </div>
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

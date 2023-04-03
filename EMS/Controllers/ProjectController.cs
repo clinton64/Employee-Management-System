@@ -15,7 +15,7 @@ namespace EMS.Controllers
             _dbContext = dbContext;
         }
 
-        private readonly ILogger<ProjectController> _logger;
+        //private readonly ILogger<ProjectController> _logger;
 
       
 
@@ -39,10 +39,9 @@ namespace EMS.Controllers
             return View(project);
         }
 
-            public IActionResult Create()
+        public IActionResult Create()
         {
             return View();
-
         }
 
 
@@ -60,7 +59,7 @@ namespace EMS.Controllers
             }
             else
             {
-                return View(project);
+                return View();
             }
 
         }
@@ -78,7 +77,6 @@ namespace EMS.Controllers
                 return NotFound();
             }
             return View(project);
-
         }
 
         [HttpPost]
@@ -97,7 +95,6 @@ namespace EMS.Controllers
             {
                 return View(project);
             }
-
         }
 
         public IActionResult Delete(Guid? id)
@@ -112,7 +109,6 @@ namespace EMS.Controllers
                 return NotFound();
             }
             return View(project);
-
         }
 
         [HttpPost]
@@ -129,11 +125,5 @@ namespace EMS.Controllers
             _dbContext.SaveChanges();
             return RedirectToAction("Index");
         }
-
-
-
-
-
-
     }
 }
