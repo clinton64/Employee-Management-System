@@ -156,7 +156,7 @@ namespace EMS.Controllers
             _dbContext.Employees.Remove(employee);
             await _dbContext.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ShowEmployeeList));
         }
 
 
