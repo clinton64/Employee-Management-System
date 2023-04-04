@@ -1,6 +1,9 @@
 using EMS.Data;
+using EMS.Repository.Implementation;
+using EMS.Repository.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,9 +16,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 
     ));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+/*builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders();*/
+
+builder.Services.AddTransient<IImageService, ImageService>();
 
 var app = builder.Build();
 
