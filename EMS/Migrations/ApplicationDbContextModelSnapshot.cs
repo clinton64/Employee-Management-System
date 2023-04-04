@@ -48,6 +48,9 @@ namespace EMS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("ImageId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("JobTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -76,6 +79,40 @@ namespace EMS.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("EMS.Models.Image", b =>
+                {
+                    b.Property<Guid>("ImageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastUpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ImageId");
+
+                    b.HasIndex("EmployeeId")
+                        .IsUnique()
+                        .HasFilter("[EmployeeId] IS NOT NULL");
+
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("EMS.Models.Project", b =>
@@ -115,6 +152,21 @@ namespace EMS.Migrations
                         .HasForeignKey("ProjectId");
 
                     b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("EMS.Models.Image", b =>
+                {
+                    b.HasOne("EMS.Models.Employee", "Employee")
+                        .WithOne("Image")
+                        .HasForeignKey("EMS.Models.Image", "EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("EMS.Models.Employee", b =>
+                {
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("EMS.Models.Project", b =>

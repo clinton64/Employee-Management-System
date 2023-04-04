@@ -10,7 +10,8 @@ namespace EMS.Data
 
 
         }
-
+        
+        public DbSet<Image> Images { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Project> Projects { get; set; }
 
@@ -28,6 +29,12 @@ namespace EMS.Data
             modelBuilder.Entity<Employee>()
                 .HasIndex(e => e.Phone)
                 .IsUnique();
+
+            modelBuilder.Entity<Employee>()
+                .HasOne(e => e.Image)
+                .WithOne(i => i.Employee)
+                .HasForeignKey<Image>(i => i.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
