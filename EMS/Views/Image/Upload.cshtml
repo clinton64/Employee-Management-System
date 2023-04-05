@@ -1,0 +1,37 @@
+﻿@model EMS.Models.Image
+
+@{
+    ViewData["Title"] = "Upload Image";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Replace with your layout file path
+}
+
+<div class="container">
+    <h2>Upload Image</h2>
+    <hr />
+
+    <form asp-controller="Image" asp-action="Upload" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label asp-for="ImageFile" class="control-label">Image File</label>
+            <input asp-for="ImageFile" type="file" class="form-control" />
+            <span asp-validation-for="ImageFile" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EmployeeId" class="control-label">Employee ID</label>
+            <input asp-for="EmployeeId" class="form-control" readonly value="@ViewContext.RouteData.Values["id"]" />
+            <span asp-validation-for="EmployeeId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ImageName" class="control-label">Image Name</label>
+            <input asp-for="ImageName" class="form-control" readonly value="@ViewContext.RouteData.Values["id"]" />
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+}

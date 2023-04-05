@@ -48,11 +48,11 @@ namespace EMS.Repository.Implementation
         }
 
 
-        public bool DeleteImage(string imageFilename)
+        public bool DeleteImage(string imageFileName)
         {
             try
             {
-                var wwwPath = this.environment.WebRootPath;
+                var wwwPath = this._environment.WebRootPath;
                 var path = Path.Combine(wwwPath, "Uploads\\", imageFileName);
                 if (System.IO.File.Exists(path))
                 {

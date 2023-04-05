@@ -13,7 +13,9 @@
                 <p class="card-text">Blood Group: @employee.BloodGroup</p>
                 <p class="card-text">Project: @(employee.Project != null ? employee.Project.ProjectName : "No Project Assigned")</p>
                 <a asp-action="Edit" asp-route-id="@employee.EmployeeId" class="btn btn-primary mr-2">Edit</a>
+                <a asp-action="Upload" asp-controller="Image" asp-route-id="@employee.EmployeeId" class="btn btn-primary mr-2">Upload Image</a>
                 <a asp-action="Delete" asp-route-id="@employee.EmployeeId" class="btn btn-danger">Delete</a>
+                
             </div>
         </div>
     }

@@ -9,9 +9,8 @@ namespace EMS.Models
     {
         [Key]
         public Guid ImageId { get; set; }
-        
+
         [Required]
-        [DisplayName(" Image Name")]
         public string ImageName { get; set; }
         
         [NotMapped]
@@ -29,7 +28,7 @@ namespace EMS.Models
         [ForeignKey("Employee")]
         public Guid? EmployeeId { get; set; }
 
-        public Employee Employee { get; set; }
+        public Employee? Employee { get; set; }
         
 
 
