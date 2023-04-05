@@ -52,15 +52,24 @@ namespace EMS.Controllers
                 if(existingImage != null)
                 {
 
+                    // Save the image to wwwroot folder
+                    var uniqueFileName = GetUniqueFileName(image.ImageFile.FileName);
+                    var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    Directory.CreateDirectory(uploadsFolder);
+                    image.ImageFile.CopyTo(new FileStream(filePath, FileMode.Create));
+
+
                     var existingImagePath = Path.Combine(_hostingEnvironment.WebRootPath, "uploads", existingImage.ImageName);
                     _logger.LogInformation(existingImage.ImageName);
                     if (System.IO.File.Exists(existingImagePath))
                     {
-                        System.IO.File.Delete(existingImagePath);
+                        //System.IO.File.Delete(existingImagePath);
+                        
                     }
 
                     // Update existing image properties
-                    existingImage.ImageName = GetUniqueFileName(image.ImageFile.FileName);
+                    existingImage.ImageName = uniqueFileName;
                     existingImage.LastUpdatedAt = DateTime.Now;
                     existingImage.ImageFile = image.ImageFile;
                     _context.Images.Update(existingImage);
@@ -71,12 +80,7 @@ namespace EMS.Controllers
 
                 }
 
-                // Save the image to wwwroot folder
-                var uniqueFileName = GetUniqueFileName(image.ImageFile.FileName);
-                var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
-                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                Directory.CreateDirectory(uploadsFolder);
-                image.ImageFile.CopyTo(new FileStream(filePath, FileMode.Create));
+                
 
                 // Update image properties
                 image.ImageName = uniqueFileName;
