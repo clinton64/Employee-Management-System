@@ -46,18 +46,19 @@ namespace EMS.Controllers
 
             if (ModelState.IsValid)
             {
-
+                
+                // Save the image to wwwroot folder
+                var uniqueFileName = GetUniqueFileName(image.ImageFile.FileName);
+                var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                Directory.CreateDirectory(uploadsFolder);
+                image.ImageFile.CopyTo(new FileStream(filePath, FileMode.Create));
 
                 var existingImage = _context.Images.FirstOrDefault(i => i.EmployeeId == employeeId);
                 if(existingImage != null)
                 {
 
-                    // Save the image to wwwroot folder
-                    var uniqueFileName = GetUniqueFileName(image.ImageFile.FileName);
-                    var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
-                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    Directory.CreateDirectory(uploadsFolder);
-                    image.ImageFile.CopyTo(new FileStream(filePath, FileMode.Create));
+                    
 
 
                     var existingImagePath = Path.Combine(_hostingEnvironment.WebRootPath, "uploads", existingImage.ImageName);

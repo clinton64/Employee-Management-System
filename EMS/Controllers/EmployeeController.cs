@@ -17,7 +17,9 @@ namespace EMS.Controllers
 
         public IActionResult ShowEmployeeList(){
 
-            var employeeList = _dbContext.Employees.Include(e => e.Project).ToList();
+            var employeeList = _dbContext.Employees
+                .Include(e => e.Project)
+                .Include(e => e.Image).ToList();
             return View(employeeList);
         }
 
