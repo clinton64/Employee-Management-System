@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -20,20 +21,15 @@ namespace EMS.Models
     }
 
 
-    public class Employee
+    public class Employee : IdentityUser<Guid>
     {
-
-
-        [Key]
-        public Guid EmployeeId { get; set; }
+        
+        
         [Required]
         [DisplayName(" Employee Name")]
         public string EmployeeName { get; set; }
 
-        [Required]
-        [DisplayName(" Email")]
-        [Remote(action: "IsEmailAvailable", controller: "Employee", ErrorMessage = "Email already exists.")]
-        public string? EmployeeEmail { get; set; }
+        
 
         [Required]
         public string JobTitle { get; set; }

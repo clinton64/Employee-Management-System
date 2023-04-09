@@ -23,21 +23,21 @@
                     }
                     else
                     {
-                        <img src="@Url.Content("~/uploads/default_image.png")" alt="Default Image" class="img-fluid rounded" />
+                        <img src="@Url.Content("~/uploads/default_user.png")" alt="Default Image" class="img-fluid rounded" />
                     }
                 </div>
                 <div class="col-12 col-md-9">
                     <h5 class="card-title">@employee.EmployeeName</h5>
                     <h6 class="card-subtitle mb-2 text-muted">@employee.JobTitle</h6>
-                    <p class="card-text">Email: @employee.EmployeeEmail</p>
+                    <p class="card-text">Email: @employee.Email</p>
                     <p class="card-text">Address: @employee.Address</p>
                     <p class="card-text">Phone: @employee.Phone</p>
                     <p class="card-text">Blood Group: @employee.BloodGroup</p>
                     <p class="card-text">Project: @(employee.Project != null ? employee.Project.ProjectName : "No Project Assigned")</p>
                     <div class="mt-3">
-                        <a asp-action="Edit" asp-route-id="@employee.EmployeeId" class="btn btn-primary mr-2">Edit</a>
-                        <a asp-action="Upload" asp-controller="Image" asp-route-id="@employee.EmployeeId" class="btn btn-primary mr-2">Upload Image</a>
-                        <a asp-action="Delete" asp-route-id="@employee.EmployeeId" class="btn btn-danger">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-primary mr-2">Edit</a>
+                        <a asp-action="Upload" asp-controller="Image" asp-route-id="@employee.Id" class="btn btn-primary mr-2">Upload Image</a>
+                        <a asp-action="Delete" asp-route-id="@employee.Id" class="btn btn-danger">Delete</a>
                     </div>
                 </div>
             </div>

@@ -17,7 +17,7 @@ namespace EMS.Controllers
 
         public IActionResult ShowEmployeeList(){
 
-            var employeeList = _dbContext.Employees
+            var employeeList = _dbContext.Users
                 .Include(e => e.Project)
                 .Include(e => e.Image).ToList();
             return View(employeeList);
@@ -34,12 +34,12 @@ namespace EMS.Controllers
         // POST: Employee/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("EmployeeName,EmployeeEmail,JobTitle,Address,Phone,BloodGroup,ProjectId")] Employee employee)
+        public IActionResult Create([Bind("EmployeeName,Email,JobTitle,Address,Phone,BloodGroup,ProjectId")] Employee employee)
         {
             if (ModelState.IsValid)
             {
 
-                bool isEmailAvailable =  IsEmailAvailable(employee.EmployeeEmail);
+                bool isEmailAvailable =  IsEmailAvailable(employee.Email);
 
                 if (!isEmailAvailable)
                 {
@@ -50,7 +50,7 @@ namespace EMS.Controllers
                 }
                 else
                 {
-                    employee.EmployeeId = Guid.NewGuid();
+                    employee.Id = Guid.NewGuid();
                     employee.CreatedAt = DateTime.Now;
                     employee.LastUpdatedAt = DateTime.Now;
 
@@ -65,15 +65,15 @@ namespace EMS.Controllers
 
         public bool IsEmailAvailable(string email)
         {
-            bool isAvailable = !_dbContext.Employees.Any(e => e.EmployeeEmail == email);
+            bool isAvailable = !_dbContext.Users.Any(e => e.Email == email);
             return isAvailable;
         }
 
         public IActionResult Edit(Guid id)
         {
-            var employee = _dbContext.Employees
+            var employee = _dbContext.Users
                 .Include(e => e.Project)
-                .FirstOrDefault(e => e.EmployeeId == id);
+                .FirstOrDefault(e => e.Id == id);
 
             if (employee == null)
             {
@@ -89,7 +89,7 @@ namespace EMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("EmployeeId,EmployeeName,EmployeeEmail,JobTitle,Address,Phone,BloodGroup,ProjectId")] Employee employee)
         {
-            if (id != employee.EmployeeId)
+            if (id != employee.Id)
             {
                 return NotFound();
             }
@@ -103,7 +103,7 @@ namespace EMS.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(employee.EmployeeId))
+                    if (!EmployeeExists(employee.Id))
                     {
                         return NotFound();
                     }
@@ -122,9 +122,9 @@ namespace EMS.Controllers
 
         public bool EmployeeExists(Guid id)
         {
-            var employee = _dbContext.Employees
+            var employee = _dbContext.Users
                 .Include(e => e.Project)
-                .FirstOrDefault(e => e.EmployeeId == id);
+                .FirstOrDefault(e => e.Id == id);
             if (employee == null)
             {
                 return false;
@@ -134,7 +134,7 @@ namespace EMS.Controllers
 
         public IActionResult Delete(Guid id)
         {
-            var employee = _dbContext.Employees.FirstOrDefault(e => e.EmployeeId == id);
+            var employee = _dbContext.Users.FirstOrDefault(e => e.Id == id);
 
             if (employee == null)
             {
@@ -148,14 +148,14 @@ namespace EMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var employee = await _dbContext.Employees.FindAsync(id);
+            var employee = await _dbContext.Users.FindAsync(id);
 
             if (employee == null)
             {
                 return NotFound();
             }
 
-            _dbContext.Employees.Remove(employee);
+            _dbContext.Users.Remove(employee);
             await _dbContext.SaveChangesAsync();
 
             return RedirectToAction(nameof(ShowEmployeeList));
