@@ -28,9 +28,7 @@ namespace EMS.Models
         [Required]
         [DisplayName(" Employee Name")]
         public string EmployeeName { get; set; }
-
         
-
         [Required]
         public string JobTitle { get; set; }
 
