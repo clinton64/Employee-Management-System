@@ -18,11 +18,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
     ));
 
 builder.Services.AddDefaultIdentity<Employee>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<UserRoles>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-/*builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();*/
 
 builder.Services.AddTransient<IImageService, ImageService>();
 

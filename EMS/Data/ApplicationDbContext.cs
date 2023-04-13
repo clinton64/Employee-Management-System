@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EMS.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<Employee, IdentityRole<Guid>, Guid>
+    public class ApplicationDbContext : IdentityDbContext<Employee, UserRoles, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

@@ -53,7 +53,6 @@ namespace EMS.Models
         public Project? Project { get; set; }
         
         public Guid? ImageId { get; set; }
-        [ForeignKey("ImageId")]
         public Image? Image { get; set; }
 
 

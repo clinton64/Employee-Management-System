@@ -2,7 +2,162 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="bg-light">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center">
+                <h2 class="display-4">Dohatec New Media</h2>
+                <p class="lead" style="font-style: italic;">Excellent, Always</p>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center">
+                <img src="@Url.Content("~/uploads/dohatec.jfif")" alt="Dohatec New Media Logo" class="img-fluid" style="border: none;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<br />
+<br />
+<br />
+
+
+<!-- about section-->
+<section id="about">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2>About Dohatec New Media</h2>
+        <hr class="star-primary">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-lg-offset-2 float-left">
+        <p class="text-left">For over 25 years, Dohatec has been a leading independent software vendor (ISV) and technology firm providing enterprise software and IT services to meet the needs of discerning corporations, institutions, and government agencies in North America, Asia, and Europe. Our solutions are designed to fulfill niche market requirements and have been successfully deployed by multinational organizations and governments to support millions of end-users.</p>
+      </div>
+      <div class="col-lg-4 align-content-lg-end float-right">
+        <p class="text-right">Our team of professionals brings decades of technical expertise, IT project management experience, and process development skills to every project. We work closely with our clients to understand their unique needs and provide customized solutions that improve productivity and increase the bottom line. At Dohatec, we are committed to building trust and long-lasting relationships with our clients by being solutions-driven and delivering value in every interaction.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- services section-->
+<section id="services">
+    <div class="container">
+        <h1 class="text-center">Services</h1>
+        <div class="row">
+            <div class="col-lg-4 mt-4">
+                <div class="card servicesText">
+                    <div class="card-body">
+                        <i class="fas servicesIcon fa-clock"></i>
+                        <h4 class="card-title mt-3">Website Development</h4>
+                        <p class="card-text mt-3">Some quick example text to build on the card title and make up the bulk of the card's content.
+                            Some quick example text to build on the card title and make up the bulk of the card's content.
+                        </p>
+                    </div>
+                </div>  
+            </div>
+            <div class="col-lg-4 mt-4">
+                <div class="card servicesText">
+                    <div class="card-body">
+                        <i class='fas servicesIcon fa-layer-group'></i>
+                        <h4 class="card-title mt-3">Website Design</h4>
+                        <p class="card-text mt-3">Some quick example text to build on the card title and make up the bulk of the card's content.
+                            Some quick example text to build on the card title and make up the bulk of the card's content.
+                        </p>
+                    </div>
+                </div>  
+            </div>
+
+            <div class="col-lg-4 mt-4">
+                <div class="card servicesText">
+                    <div class="card-body">
+                        <i class='far servicesIcon fa-check-circle'></i>
+                        <h4 class="card-title mt-3">Website Deployment</h4>
+                        <p class="card-text mt-3">Some quick example text to build on the card title and make up the bulk of the card's content.
+                            Some quick example text to build on the card title and make up the bulk of the card's content.
+                        </p>
+                    </div>
+                </div>  
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 mt-4">
+                <div class="card servicesText">
+                    <div class="card-body">
+                        <i class='fas servicesIcon fa-search'></i>
+                        <h4 class="card-title mt-3">SEO</h4>
+                        <p class="card-text mt-3">Some quick example text to build on the card title and make up the bulk of the card's content.
+                            Some quick example text to build on the card title and make up the bulk of the card's content.
+                        </p>
+                    </div>
+                </div>  
+            </div>
+
+            <div class="col-lg-4 mt-4">
+                <div class="card servicesText">
+                    <div class="card-body">
+                        <i class='fas servicesIcon fa-shield-alt'></i>
+                        <h4 class="card-title mt-3">DevOps</h4>
+                        <p class="card-text mt-3">Some quick example text to build on the card title and make up the bulk of the card's content.
+                            Some quick example text to build on the card title and make up the bulk of the card's content.
+                        </p>
+                    </div>
+                </div>  
+            </div>
+
+            <div class="col-lg-4 mt-4">
+                <div class="card servicesText">
+                    <div class="card-body">
+                        <i class='fas servicesIcon fa-wrench'></i>
+                        <h4 class="card-title mt-3">QA</h4>
+                        <p class="card-text mt-3">Some quick example text to build on the card title and make up the bulk of the card's content.
+                            Some quick example text to build on the card title and make up the bulk of the card's content.
+                        </p>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- contact section-->
+<section id="contact">
+    <div class="container mt-3 contactContent">
+        <h1 class="text-center">Contact Us</h1>
+
+        <div class="row mt-4">
+            <div class="col-lg-6">
+                <!-- to edit google map goto https://www.embed-map.com type your location, generate html code and copy the html  -->
+                <div style="max-width:100%;overflow:hidden;color:red;width:500px;height:500px;">
+                    <div id="embedmap-canvas" style="height:100%; width:100%;max-width:100%;">
+                        <iframe style="height:100%;width:100%;border:0;" frameborder="0" src="https://www.google.com/maps/embed/v1/place?q=Dohatec+New+Media,+Gulshan+North+Avenue,+Dhaka,+Bangladesh&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8">
+                        </iframe>
+                    </div>
+                    <a class="googlemaps-html" href="https://www.embed-map.com" id="get-data-forembedmap">https://www.embed-map.com</a>
+                    <style>#embedmap-canvas img{max-width:none!important;background:none!important;font-size: inherit;font-weight:inherit;}
+                    </style>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <!-- form fields -->
+                <form>
+                    <input type="text" class="form-control form-control-lg" placeholder="Name">
+                    <input type="email" class="form-control mt-3" placeholder="Email">
+                    <input type="text" class="form-control mt-3" placeholder="Subject">
+                    <div class="mb-3 mt-3">
+                        <textarea class="form-control" rows="5" id="comment" name="text" placeholder="Project Details"></textarea>
+                    </div>
+                </form>
+                <button type="button" class="btn btn-success mt-3">Contact Me</button>
+                
+            </div>
+
+        </div>
+    </div>
+</section>

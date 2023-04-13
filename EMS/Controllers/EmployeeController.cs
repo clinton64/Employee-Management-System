@@ -9,10 +9,12 @@ namespace EMS.Controllers
     public class EmployeeController : Controller
     {
         public readonly ApplicationDbContext _dbContext;
+        // define readonly logger
+        public readonly ILogger<EmployeeController> _Logger;
 
-
-        public EmployeeController(ApplicationDbContext dbContext){
+        public EmployeeController(ApplicationDbContext dbContext, ILogger<EmployeeController> logger){
             _dbContext = dbContext;
+            _Logger = logger;
         }
 
         public IActionResult ShowEmployeeList(){
@@ -87,8 +89,12 @@ namespace EMS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("EmployeeId,EmployeeName,EmployeeEmail,JobTitle,Address,Phone,BloodGroup,ProjectId")] Employee employee)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,EmployeeName,EmployeeEmail,JobTitle,Address,Phone,BloodGroup,ProjectId")] Employee employee)
         {
+            
+            _Logger.LogInformation("**** Test ****");
+            
+            _Logger.LogInformation(employee.Email.ToString());
             if (id != employee.Id)
             {
                 return NotFound();
