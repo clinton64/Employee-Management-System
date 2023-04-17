@@ -49,4 +49,24 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+
+try
+{
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    var userManager = services.GetRequiredService<UserManager<Employee>>();
+    var roleManager = services.GetRequiredService<RoleManager<UserRoles>>();
+    await ContextSeed.SeedRolesAsync(userManager, roleManager);
+    await ContextSeed.SeedSuperAdminAsync(userManager, roleManager);
+    await context.Database.MigrateAsync();
+    
+}
+catch (Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    
+    logger.LogError(ex, "An Error Occured During Migration");
+}
+
 app.Run();

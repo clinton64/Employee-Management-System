@@ -89,12 +89,12 @@ namespace EMS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,EmployeeName,EmployeeEmail,JobTitle,Address,Phone,BloodGroup,ProjectId")] Employee employee)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,EmployeeName,JobTitle,Address,Phone,BloodGroup,ProjectId")] Employee employee)
         {
             
-            _Logger.LogInformation("**** Test ****");
+           
             
-            _Logger.LogInformation(employee.Email.ToString());
+            
             if (id != employee.Id)
             {
                 return NotFound();
@@ -102,22 +102,24 @@ namespace EMS.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _dbContext.Update(employee);
-                    await _dbContext.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EmployeeExists(employee.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                
+               
+                // Find the employee by id
+                var employeeToUpdate = _dbContext.Users.FirstOrDefault(e => e.Id == id);
+                
+                // Update the employee
+                employeeToUpdate.EmployeeName = employee.EmployeeName;
+                employeeToUpdate.JobTitle = employee.JobTitle;
+                employeeToUpdate.Address = employee.Address;
+                employeeToUpdate.Phone = employee.Phone;
+                employeeToUpdate.BloodGroup = employee.BloodGroup;
+                employeeToUpdate.ProjectId = employee.ProjectId;
+                employeeToUpdate.LastUpdatedAt = DateTime.Now;
+
+                await _dbContext.SaveChangesAsync();
+                
+                
+                
                 return RedirectToAction(nameof(ShowEmployeeList));
             }
 
