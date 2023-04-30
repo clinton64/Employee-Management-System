@@ -13,13 +13,13 @@ namespace EMS.Models
         public string ProjectName { get; set; }
         [DisplayName(" Project Description")]
         public string? ProjectDescription { get; set; }
+        public ICollection<Employee> Employees { get; set; } = new List<Employee>();    
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         [Required]  
         public DateTime LastUpdatedAt { get; set; } = DateTime.Now;
         public Guid? CreatedBy { get; set; }
         public Guid? UpdatedBy{ get; set; }
-        public List<Employee> Employees { get; set; } = new List<Employee>();
        
     }
 

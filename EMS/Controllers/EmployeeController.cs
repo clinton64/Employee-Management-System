@@ -1,11 +1,14 @@
 ﻿using EMS.Data;
 using EMS.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace EMS.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
@@ -14,6 +17,7 @@ namespace EMS.Controllers
             _dbContext = context;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             IEnumerable<Employee> Employees = _dbContext.Employees;
@@ -61,7 +65,7 @@ namespace EMS.Controllers
             return View();
         }
 
-        public IActionResult Details(Guid? id)
+        public IActionResult Details(string? id)
         {
             if (id == null)
             {
@@ -72,13 +76,13 @@ namespace EMS.Controllers
             {
                 return NotFound();
             }
-            employee.AssignedProject = _dbContext.Projects.Find(employee.ProjectId);
+            employee.Project = _dbContext.Projects.Find(employee.ProjectId);
 
             return View(employee);
         }
 
         [HttpGet]
-        public IActionResult Edit(Guid? id)
+        public IActionResult Edit(string? id)
         {
             var groups = Enum.GetValues(typeof(BloodGroup))
                 .Cast<BloodGroup>()
@@ -101,18 +105,25 @@ namespace EMS.Controllers
                 return NotFound();
             } 
 
+            // authorize an employee to edit own profile only
             var employee = _dbContext.Employees.Find(id);
-            if (employee == null)
+            var currentUser = User.Identity.Name;
+            if (employee != null && currentUser != null && currentUser == employee.UserName) 
             {
-                return NotFound();
+                return View(employee);
             }
-            return View(employee);
+            else
+            {
+                ViewBag.AlertMessage = "You are only authorized to edit your own profile";
+                ViewBag.Id = id.ToString();
+                return RedirectToAction("Index", "Employee");
+            } 
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Employee employee)
+        public async Task<IActionResult> Edit(Employee employee)
         {
             // Pass Blood Group as SelectList
             var groups = Enum.GetValues(typeof(BloodGroup))
@@ -139,19 +150,25 @@ namespace EMS.Controllers
 
             if (ModelState.IsValid)
             {
-                _dbContext.Employees.Update(employee);
+                Employee updatedEmployee = _dbContext.Employees.Find(employee.Id);
+                updatedEmployee.UserName = employee.UserName;
+                updatedEmployee.Email = employee.Email;
+                updatedEmployee.PhoneNumber = employee.PhoneNumber;
+                updatedEmployee.Address = employee.Address;
+                updatedEmployee.BloodGroup = employee.BloodGroup;
+                updatedEmployee.Salary = employee.Salary;
+                updatedEmployee.JobPost = employee.JobPost;
+                updatedEmployee.Project = employee.Project;
+
+                _dbContext.Employees.Update(updatedEmployee);
                 _dbContext.SaveChanges();
-                TempData["success"] = "Project Edited Successfully";
-                return RedirectToAction("Index");
+                RedirectToAction("Index");
             }
-            else
-            {
-                return NotFound();
-            }
+            return View(employee);
         }
 
         [HttpGet]
-        public IActionResult Delete(Guid? id)
+        public IActionResult Delete(string? id)
         {
             if (id == null)
             {
@@ -167,7 +184,7 @@ namespace EMS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(Guid id)
+        public IActionResult DeleteEmployee(string id)
         {
 
             var employee = _dbContext.Employees.Find(id);

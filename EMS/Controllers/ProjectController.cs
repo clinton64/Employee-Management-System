@@ -1,11 +1,11 @@
 ﻿using EMS.Data;
 using EMS.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Controller;
 
 namespace EMS.Controllers
 {
+    [Authorize]
     public class ProjectController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
@@ -17,8 +17,8 @@ namespace EMS.Controllers
 
         //private readonly ILogger<ProjectController> _logger;
 
-      
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             IEnumerable<Project> projectList = _dbContext.Projects;

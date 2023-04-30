@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230330082648_AddEmployeesToDatabase")]
-    partial class AddEmployeesToDatabase
+    [Migration("20230409053524_AddToDatabase")]
+    partial class AddToDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,18 +27,20 @@ namespace EMS.Migrations
 
             modelBuilder.Entity("EMS.Models.Employee", b =>
                 {
-                    b.Property<Guid>("EmployeeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("AssignedProjectProjectId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("BloodGroup")
                         .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -47,8 +49,10 @@ namespace EMS.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
 
                     b.Property<int>("JobPost")
                         .HasColumnType("int");
@@ -59,24 +63,45 @@ namespace EMS.Migrations
                     b.Property<Guid?>("LastUpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
+                    b.Property<string>("NormalizedUserName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
+                    b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Salary")
                         .HasColumnType("int");
 
-                    b.HasKey("EmployeeId");
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("AssignedProjectProjectId");
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Employees");
                 });
@@ -113,11 +138,16 @@ namespace EMS.Migrations
 
             modelBuilder.Entity("EMS.Models.Employee", b =>
                 {
-                    b.HasOne("EMS.Models.Project", "AssignedProject")
-                        .WithMany()
-                        .HasForeignKey("AssignedProjectProjectId");
+                    b.HasOne("EMS.Models.Project", "Project")
+                        .WithMany("Employees")
+                        .HasForeignKey("ProjectId");
 
-                    b.Navigation("AssignedProject");
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("EMS.Models.Project", b =>
+                {
+                    b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618
         }

@@ -13,9 +13,9 @@
         </div>
         <div asp-validation-summary="All"></div>
         <div class="mb-3">
-            <label asp-for="Name"></label>
-            <input asp-for="Name" class="form-control"/>
-            <span asp-validation-for="Name" class="text-danger"></span>
+            <label asp-for="UserName"></label>
+            <input asp-for="UserName" class="form-control"/>
+            <span asp-validation-for="UserName" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="Email"></label>
@@ -23,9 +23,9 @@
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="Phone"></label>
-            <input asp-for="Phone" class="form-control" />
-            <span asp-validation-for="Phone" class="text-danger"></span>
+            <label asp-for="PhoneNumber"></label>
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
@@ -47,7 +47,7 @@
             <span asp-validation-for="Address" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="AssignedProject"></label>
+            <label asp-for="Project"></label>
             @Html.DropDownListFor(model => model.ProjectId, (IEnumerable<SelectListItem>)ViewBag.Projects, "Select Project")
         </div>
 

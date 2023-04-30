@@ -1,5 +1,6 @@
 using EMS.Data;
 using Microsoft.EntityFrameworkCore;
+using EMS.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,10 +8,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
-
     builder.Configuration.GetConnectionString("DefaultConnection")
-
     ));
+
+builder.Services.AddDefaultIdentity<Employee>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>(); 
+
+
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -26,11 +31,13 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseAuthentication();;
 
+app.MapRazorPages();
 app.Run();

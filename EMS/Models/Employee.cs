@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,21 +10,8 @@ namespace EMS.Models
         public abstract void UpdateProfile();
         public abstract void UpdateAttendance();
     }
-    public class Employee : Person
+    public class Employee : IdentityUser, Person
     {
-        [Key]
-        public Guid EmployeeId { get; set; }
-        [Required]
-        public string Name { get; set; }
-
-        [Required]
-        [EmailAddress(ErrorMessage = "Please enter a valid email address")]
-        public string Email { get; set; }
-
-        [Required]
-        [Phone(ErrorMessage = "Please enter a valid phone number.")]
-        public string Phone { get; set; }
-
         [Required]
         public BloodGroup BloodGroup { get; set; }
 
@@ -36,7 +24,7 @@ namespace EMS.Models
         public string? Address { get; set; }
 
         [DisplayName("Project")]
-        public Project? AssignedProject { get; set; } = null!;
+        public Project? Project { get; set; } = null!;
 
         [ForeignKey("Project")]
         public Guid? ProjectId { get; set; }
