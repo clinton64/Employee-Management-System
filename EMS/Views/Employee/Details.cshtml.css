@@ -1,0 +1,22 @@
+﻿.employee-details {
+    margin: 20px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+    .employee-details dt {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .employee-details dd {
+        margin-left: 0;
+        margin-bottom: 10px;
+        padding-left: 20px;
+    }
+
+    .employee-details hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }

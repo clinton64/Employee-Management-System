@@ -20,13 +20,13 @@
     <thead>
 
         <tr>
-            <th>
+            <th class="text-center">
                 Employee Name
             </th>
-            <th>
+            <th class="text-center">
                 Project
             </th>
-            <th>
+            <th class="text-center">
                 Designation
             </th>
 
@@ -39,13 +39,13 @@
         @foreach (var employee in Model)
         {   
             <tr>
-                <td width="50%">
+                <td width="30%" align="center">
                     @employee.UserName
                 </td>
-                <td>
-                    @employee.Project projectName
+                <td width="30%" align="center">
+                    @(employee.Project != null ? employee.Project.ProjectName : "")
                 </td>
-                <td width="50%">
+                <td width="30%" align="center">
                     @employee.JobPost
                 </td>
                 <td>

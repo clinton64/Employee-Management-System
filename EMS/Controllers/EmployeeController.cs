@@ -20,7 +20,7 @@ namespace EMS.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
-            IEnumerable<Employee> Employees = _dbContext.Employees;
+            IEnumerable<Employee> Employees = _dbContext.Employees.Include(e => e.Project);
             return View(Employees);
         }
 
@@ -151,18 +151,21 @@ namespace EMS.Controllers
             if (ModelState.IsValid)
             {
                 Employee updatedEmployee = _dbContext.Employees.Find(employee.Id);
-                updatedEmployee.UserName = employee.UserName;
-                updatedEmployee.Email = employee.Email;
-                updatedEmployee.PhoneNumber = employee.PhoneNumber;
-                updatedEmployee.Address = employee.Address;
-                updatedEmployee.BloodGroup = employee.BloodGroup;
-                updatedEmployee.Salary = employee.Salary;
-                updatedEmployee.JobPost = employee.JobPost;
-                updatedEmployee.Project = employee.Project;
+                if (updatedEmployee != null)
+                {
+                    updatedEmployee.UserName = employee.UserName;
+                    updatedEmployee.Email = employee.Email;
+                    updatedEmployee.PhoneNumber = employee.PhoneNumber;
+                    updatedEmployee.Address = employee.Address;
+                    updatedEmployee.BloodGroup = employee.BloodGroup;
+                    updatedEmployee.Salary = employee.Salary;
+                    updatedEmployee.JobPost = employee.JobPost;
+                    updatedEmployee.Project = employee.Project;
 
-                _dbContext.Employees.Update(updatedEmployee);
-                _dbContext.SaveChanges();
-                RedirectToAction("Index");
+                    _dbContext.Employees.Update(updatedEmployee);
+                    await _dbContext.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
             }
             return View(employee);
         }
