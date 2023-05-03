@@ -41,5 +41,9 @@
     </dl>
 </div>
 <div>
+    <a asp-controller="Project" asp-action="Edit" asp-route-id="@Model.ProjectId"> Edit </a>
+    &nbsp;
     <a asp-action="Index">Back to List</a>
+    &nbsp;
+    <a asp-controller="Project" asp-action="Delete" asp-route-id="@Model.ProjectId">Delete</a>
 </div>
