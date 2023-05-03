@@ -160,7 +160,7 @@ namespace EMS.Controllers
                     updatedEmployee.BloodGroup = employee.BloodGroup;
                     updatedEmployee.Salary = employee.Salary;
                     updatedEmployee.JobPost = employee.JobPost;
-                    updatedEmployee.Project = employee.Project;
+                    updatedEmployee.ProjectId = employee.ProjectId;
 
                     _dbContext.Employees.Update(updatedEmployee);
                     await _dbContext.SaveChangesAsync();
