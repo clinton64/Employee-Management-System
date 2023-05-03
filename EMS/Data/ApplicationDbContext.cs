@@ -13,7 +13,7 @@ namespace EMS.Data
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Project> Projects { get; set; }
-
+        public DbSet<EmployeeImage> EmployeeImages { get; set; } 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
