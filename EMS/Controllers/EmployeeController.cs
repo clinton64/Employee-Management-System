@@ -77,7 +77,12 @@ namespace EMS.Controllers
             {
                 return NotFound();
             }
+            // load Project and Image into employee model
             employee.Project = _dbContext.Projects.Find(employee.ProjectId);
+            if(employee.ImageId != null)
+            {
+                employee.Image = _dbContext.EmployeeImages.Find(employee.ImageId).ImageData;
+            }
 
             return View(employee);
         }
