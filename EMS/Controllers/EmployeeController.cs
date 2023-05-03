@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace EMS.Controllers
 {
@@ -123,7 +124,7 @@ namespace EMS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Employee employee)
+        public async Task<IActionResult> Edit(Employee employee, IFormFile image)
         {
             // Pass Blood Group as SelectList
             var groups = Enum.GetValues(typeof(BloodGroup))
@@ -161,7 +162,23 @@ namespace EMS.Controllers
                     updatedEmployee.Salary = employee.Salary;
                     updatedEmployee.JobPost = employee.JobPost;
                     updatedEmployee.ProjectId = employee.ProjectId;
-
+                    // save image to database 
+                    if (image != null && image.Length > 0)
+                    {
+                        using(var memoryStream = new MemoryStream())
+                        {
+                            await image.CopyToAsync(memoryStream);
+                            var imageData = memoryStream.ToArray();
+                            var employeeImage = new EmployeeImage
+                            {
+                                EmployeeId = updatedEmployee.Id,
+                                ImageData = imageData
+                            };
+                            _dbContext.EmployeeImages.Add(employeeImage);
+                            await _dbContext.SaveChangesAsync();
+                            updatedEmployee.ImageId = employeeImage.Id;
+                        }
+                    }
                     _dbContext.Employees.Update(updatedEmployee);
                     await _dbContext.SaveChangesAsync();
                     return RedirectToAction("Index");
@@ -198,6 +215,21 @@ namespace EMS.Controllers
             _dbContext.Remove(employee);
             _dbContext.SaveChanges();
             return RedirectToAction("Index");
+        }
+        public bool UploadImage(Employee employee, IFormFile imageFile)
+        {
+            if(employee != null && imageFile != null && imageFile.Length > 0) 
+            {
+                using(var stream = new MemoryStream())
+                {
+                    imageFile.CopyToAsync(stream);
+                    employee.Image = stream.ToArray();
+                }
+                _dbContext.EmployeeImages.Add((EmployeeImage)imageFile);
+                _dbContext.SaveChanges();
+                return true;
+            }
+            return false;
         }
     }
 }

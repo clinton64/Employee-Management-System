@@ -38,6 +38,7 @@ namespace EMS.Models
         public Guid? LastUpdatedBy { get; set; } 
 
         public byte[]? Image { get; set; }
+        public Guid ? ImageId { get; set; } 
         public void UpdateAttendance()
         {
             //attendanceController.UpdateAttendance();

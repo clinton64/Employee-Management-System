@@ -4,7 +4,7 @@
 }
 
 <h1>Edit Employee</h1>
-@if(ViewBag.AlertMessage != null && ViewBag.Id != null)
+@if (ViewBag.AlertMessage != null && ViewBag.Id != null)
 {
     Guid employeeId = Guid.Parse(ViewBag.Id.ToString());
     if (employeeId != Guid.Parse(Model.Id))
@@ -15,8 +15,7 @@
     }
     <script>
         var employeeId = "@ViewBag.Id";
-        if(employeeId != @Model.Id)
-        {
+        if (employeeId != @Model.Id) {
             alert("@ViewBag.AlertMessage");
         }
     </script>
@@ -24,7 +23,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
 
@@ -66,7 +65,10 @@
                 <label asp-for="Project"></label>
                 @Html.DropDownListFor(model => model.ProjectId, (IEnumerable<SelectListItem>)ViewBag.Projects, "Select a Project")
             </div>
-
+            <div class="form-group">
+                <label asp-for="Image"></label>
+                <input type="file" name="Image" id="Image" accept="image/*" />
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
