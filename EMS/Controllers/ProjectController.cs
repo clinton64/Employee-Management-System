@@ -11,8 +11,8 @@ namespace EMS.Controllers
     public class ProjectController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly MemoryCache memoryCache;
-        public ProjectController(ApplicationDbContext dbContext, MemoryCache memoryCache)
+        private readonly IMemoryCache memoryCache;
+        public ProjectController(ApplicationDbContext dbContext, IMemoryCache memoryCache)
         {
             _dbContext = dbContext;
             this.memoryCache = memoryCache;
