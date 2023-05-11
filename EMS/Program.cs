@@ -1,6 +1,7 @@
 using EMS.Data;
 using Microsoft.EntityFrameworkCore;
 using EMS.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,8 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("DefaultConnection")
-    ));
+    builder.Configuration.GetConnectionString("DefaultConnection")) ,ServiceLifetime.Scoped);
 
 builder.Services.AddDefaultIdentity<Employee>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>(); 
