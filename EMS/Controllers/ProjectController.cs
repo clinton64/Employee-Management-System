@@ -26,11 +26,11 @@ namespace EMS.Controllers
         {
             IEnumerable<Project> projectList;
             // in-memory caching
-            var cacheProjects = "Projects";
-            if (!_memoryCache.TryGetValue(cacheProjects, out projectList))
+            var cacheKey = "Projects";
+            if (!_memoryCache.TryGetValue(cacheKey, out projectList))
             {
                 projectList = _dbContext.Projects.ToList();
-                _memoryCache.Set(cacheProjects, projectList, TimeSpan.FromMinutes(5));
+                _memoryCache.Set(cacheKey, projectList, TimeSpan.FromMinutes(5));
             }
             return View(projectList);
         }
