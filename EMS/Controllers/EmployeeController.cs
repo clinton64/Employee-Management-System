@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System.Diagnostics;
 using System.Drawing;
 
@@ -13,15 +14,22 @@ namespace EMS.Controllers
     public class EmployeeController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
-        public EmployeeController (ApplicationDbContext context)
+        private readonly IMemoryCache _memoryCache;
+        public EmployeeController (ApplicationDbContext context, IMemoryCache memoryCache)
         {
             _dbContext = context;
+            _memoryCache = memoryCache;
         }
 
         [AllowAnonymous]
         public IActionResult Index()
         {
-            IEnumerable<Employee> Employees = _dbContext.Employees.Include(e => e.Project);
+            IEnumerable<Employee> Employees ;
+            if(!_memoryCache.TryGetValue("EmployeeList",out Employees)){
+                Employees = _dbContext.Employees.Include(e => e.Project).ToList();
+                //added breakpoint to see caching
+                _memoryCache.Set("EmployeeList", Employees);
+            }
             return View(Employees);
         }
 

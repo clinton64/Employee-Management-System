@@ -2,6 +2,8 @@
 using EMS.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace EMS.Controllers
 {
@@ -9,10 +11,11 @@ namespace EMS.Controllers
     public class ProjectController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
-
-        public ProjectController(ApplicationDbContext dbContext)
+        private readonly IMemoryCache memoryCache;
+        public ProjectController(ApplicationDbContext dbContext, IMemoryCache memoryCache)
         {
             _dbContext = dbContext;
+            this.memoryCache = memoryCache;
         }
 
         //private readonly ILogger<ProjectController> _logger;
@@ -21,7 +24,16 @@ namespace EMS.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
-            IEnumerable<Project> projectList = _dbContext.Projects;
+            IEnumerable<Project> projectList;
+
+            if (!memoryCache.TryGetValue("ProjectList", out projectList))
+            {
+                // If not found in cache, fetch the project list from the database
+                projectList = _dbContext.Projects.ToList();
+
+                // Add the project list to the cache with a specified cache duration
+                memoryCache.Set("ProjectList", projectList, TimeSpan.FromMinutes(10));
+            }
             return View(projectList);
         }
 
