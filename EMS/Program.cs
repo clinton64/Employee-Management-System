@@ -1,6 +1,7 @@
 using EMS.Data;
 using Microsoft.EntityFrameworkCore;
 using EMS.Models;
+using EMS.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +13,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
     ));
 
 builder.Services.AddDefaultIdentity<Employee>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>(); 
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddScoped<ICacheService, CacheService>();
 
 builder.Services.AddRazorPages();
 
